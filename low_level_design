@@ -147,7 +147,12 @@ public class Main
    
     ------------------trust the process
     
-    
+    Interface segregation priciple
+
+ oru interface la adhuku thevaya abstract methods matum dhaan irukanum unwanted methods iruka koodathu
+
+
+
    
    
         
