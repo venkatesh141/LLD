@@ -111,6 +111,38 @@ public class Main
    
    It states that objectss of a superclass should be replaceable with objects
    of its subclass without affecting correctness of program
+
+
+    interface Bird
+{
+    void fly();
+}
+class Bird1 implements Bird
+{
+    
+    public void fly()
+    {
+        System.out.println("bird1 can fly");
+    }
+}
+class Bird2 implements Bird
+{
+    
+    public void fly()
+    {
+        System.out.println("bird2 can't fly");
+    }
+}
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Bird b1=new Bird1();
+        Bird b2=new Bird2();
+        b1.fly();
+        b2.fly();
+    }
+}
    
    
     ------------------trust the process
