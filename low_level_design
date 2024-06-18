@@ -152,6 +152,45 @@ public class Main
  oru interface la adhuku thevaya abstract methods matum dhaan irukanum unwanted methods iruka koodathu
 
 
+Before Applying ISP
+
+public interface Worker {
+  void work();
+  void eat();
+}
+
+
+After applying ISP
+
+interface Workable
+{
+    void work();
+}
+interface Eatable
+{
+    void eat();
+}
+class Robo implements Workable
+{
+    public void work()
+    {
+        System.out.println("robo working");
+    }
+}
+class Human implements Workable,Eatable
+{
+    public void work()
+    {
+        System.out.println("human working");
+    }
+    public void eat()
+    {
+        System.out.println("human eating");
+    }
+}
+--------------------------------------------trust the process
+
+
 
    
    
