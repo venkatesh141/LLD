@@ -17,37 +17,27 @@ low level design
    
    for example if it is add function it should do only add it should not do more than that.
    
-public class Report
-{
-    private String content;
-    public Report(String content)
-    {
-        this.content=content;
+// Not following SRP
+class UserService {
+    void addUser(String user) {
+        System.out.println("User added: " + user);
     }
-    public void getContent()
-    {
-        return this.content;
+    
+    void saveToDatabase(String user) {
+        System.out.println("User saved to database: " + user);
     }
 }
-public class Reportgenerator
-{
-    public void generateReport()
-    {
-        
+
+// Following SRP
+class UserService {
+    void addUser(String user) {
+        System.out.println("User added: " + user);
     }
 }
-public class SaveReport
-{
-    public void savereport()
-    {
-        
-    }
-}
-public class Sendemail
-{
-    public void sendemail
-    {
-        
+
+class DatabaseService {
+    void saveToDatabase(String user) {
+        System.out.println("User saved to database: " + user);
     }
 }
 
@@ -58,178 +48,169 @@ public class Sendemail
    Open closed principle(have to use interface )
    
       If we need to create a new  feature, we should not modify the existing code, we have to create seperate module or class to create a new feature.
+Definition: A class should be open for extension but closed for modification.
       
-      // Interface representing a shape
-public interface Shape {
-  // implement it for each shape
-  double calculateArea();
+// Not following OCP
+class NotificationService {
+    void sendNotification(String type, String message) {
+        if (type.equals("Email")) {
+            System.out.println("Email sent: " + message);
+        } else if (type.equals("SMS")) {
+            System.out.println("SMS sent: " + message);
+        }
+    }
 }
 
-// Rectangle implementation
-public class Rectangle implements Shape {
-  private double width;
-  private double height;
-
-  public Rectangle(double width, double height) {
-    this.width = width;
-    this.height = height;
-  }
-
-  @Override
-  public double calculateArea() {
-    return width * height;
-  }
+// Following OCP
+interface Notification {
+    void send(String message);
 }
 
-// Circle implementation
-public class Circle implements Shape {
-  private double radius;
-
-  public Circle(double radius) {
-    this.radius = radius;
-  }
-
-  @Override
-  public double calculateArea() {
-    return Math.PI * radius * radius;
-  }
+class EmailNotification implements Notification {
+    public void send(String message) {
+        System.out.println("Email sent: " + message);
+    }
 }
-public class Main
-{
-   public static void main(String[] args)
-   {
-   
-    Triangle t=new Triangle(1.1,2.1);
-    Circle c=new Circle(1.3);
-    t.calculateArea();
-    s.calculateArea();
+
+class SMSNotification implements Notification {
+    public void send(String message) {
+        System.out.println("SMS sent: " + message);
+    }
+}
+
+class NotificationService {
+    void sendNotification(Notification notification, String message) {
+        notification.send(message);
     }
 }
  
    ------------------trust the process
    Liskov substitution princile
-   
+
    It states that objectss of a superclass should be replaceable with objects
    of its subclass without affecting correctness of program
 
+// Not following LSP
+class Bird {
+    void fly() {
+        System.out.println("Flying...");
+    }
+}
 
-    interface Bird
-{
-    void fly();
-}
-class Bird1 implements Bird
-{
-    
-    public void fly()
-    {
-        System.out.println("bird1 can fly");
+class Penguin extends Bird {
+    @Override
+    void fly() {
+        throw new UnsupportedOperationException("Penguins can't fly");
     }
 }
-class Bird2 implements Bird
-{
-    
-    public void fly()
-    {
-        System.out.println("bird2 can't fly");
+
+// Following LSP
+abstract class Bird {
+    abstract void move();
+}
+
+class Sparrow extends Bird {
+    void move() {
+        System.out.println("Flying...");
     }
 }
-public class Main
-{
-    public static void main(String[] args)
-    {
-        Bird b1=new Bird1();
-        Bird b2=new Bird2();
-        b1.fly();
-        b2.fly();
+
+class Penguin extends Bird {
+    void move() {
+        System.out.println("Swimming...");
     }
 }
-   
+
    
     ------------------trust the process
     
     Interface segregation priciple
 
  oru interface la adhuku thevaya abstract methods matum dhaan irukanum unwanted methods iruka koodathu
+Definition: A class should not be forced to implement interfaces it doesn't use.
 
-
-Before Applying ISP
-
-public interface Worker {
-  void work();
-  void eat();
+// Not following ISP
+interface Animal {
+    void fly();
+    void swim();
+    void walk();
 }
 
+class Dog implements Animal {
+    public void fly() {
+        // Not applicable
+    }
 
-After applying ISP
+    public void swim() {
+        System.out.println("Dog swims");
+    }
 
-interface Workable
-{
-    void work();
-}
-interface Eatable
-{
-    void eat();
-}
-class Robo implements Workable
-{
-    public void work()
-    {
-        System.out.println("robo working");
+    public void walk() {
+        System.out.println("Dog walks");
     }
 }
-class Human implements Workable,Eatable
-{
-    public void work()
-    {
-        System.out.println("human working");
+
+// Following ISP
+interface Walkable {
+    void walk();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Dog implements Walkable, Swimmable {
+    public void walk() {
+        System.out.println("Dog walks");
     }
-    public void eat()
-    {
-        System.out.println("human eating");
+
+    public void swim() {
+        System.out.println("Dog swims");
     }
 }
+
 --------------------------------------------trust the process
 
 Dependency inversio principle
 
-       High level class should not depend on low level class, instead of that both should depend on abstract or interface.(refer medium)
-
-// Abstraction representing a connection interface
-public interface Connection {
-  void connect();
-  void disconnect();
+       Definition: High-level modules should not depend on low-level modules; both should depend on abstractions.
+// Not following DIP
+class Keyboard {
+    void type() {
+        System.out.println("Typing...");
+    }
 }
 
-// High-level module representing a business logic class
-public class BusinessLogic {
-  private Connection connection;
-
-  public BusinessLogic(Connection connection) {
-    this.connection = connection;
-  }
-
-  public void performBusinessLogic() {
-    // Using the Connection abstraction
-    connection.connect();
-    // Business logic code
-    System.out.println("Performing business logic");
-    // Using the Connection abstraction
-    connection.disconnect();
-  }
+class Computer {
+    private Keyboard keyboard = new Keyboard();
+    void start() {
+        keyboard.type();
+    }
 }
 
-// Low-level module representing a database connection class
-public class DatabaseConnection implements Connection {
-  @Override
-  public void connect() {
-    System.out.println("Connecting to the database");
-  }
-
-  @Override
-  public void disconnect() {
-    System.out.println("Disconnecting from the database");
-  }
+// Following DIP
+interface InputDevice {
+    void type();
 }
+
+class Keyboard implements InputDevice {
+    public void type() {
+        System.out.println("Typing...");
+    }
+}
+
+class Computer {
+    private InputDevice inputDevice;
+    
+    Computer(InputDevice inputDevice) {
+        this.inputDevice = inputDevice;
+    }
+    
+    void start() {
+        inputDevice.type();
+    }
+}
+
 ---------------------------------------------------trust the process
 
 
