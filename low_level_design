@@ -273,6 +273,66 @@ Example Use Case: A single pool manages connections to a MySQL database in an e-
 ------------------------------------------------------------trust the process
 
 
+The Factory Method Pattern is a design pattern that allows a class to create objects without specifying their exact type. 
+It provides a way to delegate the creation process to a separate method (factory), making the code flexible and easy to extend
+
+interface Food {
+    void prepare(); // All food items will implement this method
+}
+
+// Step 2: Create concrete classes for different food items
+class Pizza implements Food {
+    @Override
+    public void prepare() {
+        System.out.println("Preparing Pizza with cheese and toppings.");
+    }
+}
+
+class Burger implements Food {
+    @Override
+    public void prepare() {
+        System.out.println("Preparing Burger with lettuce and patties.");
+    }
+}
+
+// Step 3: Create a Factory class with a method to produce food
+class FoodFactory {
+    // Factory Method
+    public static Food getFood(String foodType) {
+        if (foodType.equalsIgnoreCase("Pizza")) {
+            return new Pizza();
+        } else if (foodType.equalsIgnoreCase("Burger")) {
+            return new Burger();
+        } else {
+            throw new IllegalArgumentException("Unknown food type");
+        }
+    }
+}
+
+// Step 4: Test the Factory Method
+public class Main {
+    public static void main(String[] args) {
+        // Order Pizza
+        Food pizza = FoodFactory.getFood("Pizza");
+        pizza.prepare(); // Output: Preparing Pizza with cheese and toppings.
+
+        // Order Burger
+        Food burger = FoodFactory.getFood("Burger");
+        burger.prepare(); // Output: Preparing Burger with lettuce and patties.
+    }
+}
+
+Interface (Food): Defines the common behavior for all food items.
+Concrete Classes (Pizza, Burger): These are the actual products.
+Factory Class (FoodFactory): Contains the logic to decide which product (food) to create.
+Client Code (Main): Uses the factory method to get the required object without knowing its exact class.
+
+Key Points
+Loose Coupling: The client code (Main) does not directly depend on the concrete classes (Pizza, Burger).
+Flexibility: Adding new food types (e.g., "Pasta") only requires updating the factory method, not the client code.
+------------------------------------------------------------trust the process
+
+
 
    
    
