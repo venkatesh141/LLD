@@ -212,6 +212,65 @@ class Computer {
 }
 
 ---------------------------------------------------trust the process
+The Singleton Pattern ensures that a class has only one instance and provides a global point of access to that instance. 
+This is useful when exactly one object is needed to coordinate actions across the system, such as a configuration manager or a logging utility.
+
+How It Works
+Private Constructor: To prevent creating multiple instances from outside the class.
+Static Instance: A static variable holds the single instance of the class.
+Public Getter Method: A public static method provides access to the single instance.
+
+// Singleton class
+class Singleton {
+    // Step 1: Create a static variable to hold the single instance
+    private static Singleton instance;
+
+    // Step 2: Make the constructor private to prevent direct instantiation
+    private Singleton() {
+        System.out.println("Singleton instance created");
+    }
+
+    // Step 3: Provide a public static method to get the single instance
+    public static Singleton getInstance() {
+        if (instance == null) { // Create the instance if it doesn't exist
+            instance = new Singleton();
+        }
+        return instance; // Return the single instance
+    }
+
+    // Example method to show functionality
+    public void showMessage() {
+        System.out.println("Hello from Singleton!");
+    }
+}
+
+// Main class to test Singleton
+public class Main {
+    public static void main(String[] args) {
+        // Get the single instance of Singleton
+        Singleton singleton1 = Singleton.getInstance();
+        Singleton singleton2 = Singleton.getInstance();
+
+        // Call a method on the Singleton instance
+        singleton1.showMessage();
+
+        // Verify that both references point to the same instance
+        System.out.println(singleton1 == singleton2); // Output: true
+    }
+}
+
+Key Points:
+One Instance: The getInstance() method ensures only one instance is created.
+Thread Safety (Optional for real-world use): For multi-threaded programs, synchronize the getInstance() method to avoid multiple threads creating separate instances.
+Let me know if you'd like to see the thread-safe version or need further simplification!
+
+. Database Connection Pool
+Why Singleton? Managing connections to a database is resource-intensive.
+ A Singleton ensures a single connection pool object is shared across the application.
+Example Use Case: A single pool manages connections to a MySQL database in an e-commerce website.
+
+
+------------------------------------------------------------trust the process
 
 
 
